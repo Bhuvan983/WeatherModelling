@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Quadratic Temperature Model</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color:aquamarine;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .input-container {
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="number"] {
+      width: calc(100% - 12px);
+      padding: 6px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 8px 15px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #chart {
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    a{
+        font-family: 'Courier New', Courier, monospace;
+        border:2px solid;
+        padding: 10px;
+        background-color: antiquewhite;
+        border-radius: 8px;
+        float:right;
+       
+    }
+    img{
+        
+        margin-left: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Quadratic Temperature Model</h1><a href="http://127.0.0.1:3000/weather.html"><img src="sun.jpg" width="60px" height="60px" ><br>Live Weather</a>
+  <div class="input-container">
+    <label for="inputA">Quadratic Coefficient (a):</label>
+    <input type="number" id="inputA"><br><br>
+    <label for="inputB">Linear Coefficient (b):</label>
+    <input type="number" id="inputB"><br><br>
+    <label for="inputC">Constant Term (c):</label>
+    <input type="number" id="inputC"><br><br>
+    <label for="inputDays">Number of Days to Model:</label>
+    <input type="number" id="inputDays"><br><br>
+    <button onclick="generateModel()">Generate Model</button>
+  </div>
+  <div id="chart"></div>
+
+  <script>
+    // JavaScript code remains the same as provided earlier
+    function quadraticTemperatureModel(day, a, b, c) {
+      return a * day ** 2 + b * day + c;
+    }
+
+    function generateModel() {
+      const a = parseFloat(document.getElementById('inputA').value);
+      const b = parseFloat(document.getElementById('inputB').value);
+      const c = parseFloat(document.getElementById('inputC').value);
+      const numDays = parseInt(document.getElementById('inputDays').value);
+
+      const days = Array.from({ length: numDays }, (_, i) => i + 1);
+      const temperatures = days.map(day => quadraticTemperatureModel(day, a, b, c));
+
+      const data = [{
+        x: days,
+        y: temperatures,
+        mode: 'lines+markers',
+        type: 'scatter',
+        name: `Temperature: ${a}x^2 + ${b}x + ${c}`
+      }];
+
+      const layout = {
+        title: 'Weather Modeling',
+        xaxis: { title: 'Day' },
+        yaxis: { title: 'Temperature (°C)' }
+      };
+
+      Plotly.newPlot('chart', data, layout);
+    }
+  </script>
+</body>
+
+</html>
+
